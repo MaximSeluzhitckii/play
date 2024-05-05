@@ -22,9 +22,10 @@ label = tk.Label(master, text="He попадись!")
 
 
 def prepare_and_start():
-    global enemy
+
     global player
     global oval_finish
+    global enemy
     canvas.delete("all")
 
     player_pos = (random.randint(1, N_X - 1) * step,
@@ -33,7 +34,7 @@ def prepare_and_start():
                                  image=player_pic,
                                  anchor='nw')
     oval_finish = canvas.create_oval(250, 250, 350, 350, fill='white')
-    cube_vrag = canvas.create_oval(300, 300, 400, 400, fill='red')
+    enemy = canvas.create_oval(300, 300, 400, 400, fill='red')
 
     label.config(text="Haйди выход!")
     master.bind("<KeyPress>", key_pressed)
@@ -44,7 +45,7 @@ def chek_win():
     if enemy in overlap:
         print('looser')
         label.config(text='You loose!')
-    if oval_finish in overlap:
+    elif oval_finish in overlap:
         print('winner')
         label.config(text='You win!')
 
@@ -74,7 +75,9 @@ def key_pressed(event):
         move_wrap(player, step, 0)
     elif event.keysym == 'Left':
         move_wrap(player, -step, 0)
+    move_enemy()
     chek_win()
+
 
 restart = tk.Button(master, text="Haчaть заново", command=prepare_and_start)
 
